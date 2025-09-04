@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Elastic Serverless - use ENDPOINT not CLOUD_ID
+      - ELASTIC_ENDPOINT=${ELASTIC_ENDPOINT}
+      - ELASTIC_API_KEY=${ELASTIC_API_KEY}
+      - ES_INDEX=${ES_INDEX:-rag_documents_semantic}
+      
+      # AWS Bedrock
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - BEDROCK_MODEL_ID=${BEDROCK_MODEL_ID:-anthropic.claude-3-sonnet-20240229-v1:0}
+    volumes:
+      - ./static:/app/static
